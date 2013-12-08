@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+	<title></title>
+	<head>
+		<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> -->
+		<title>Pear -- Livefeed</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+	</head>
+		<body>
+		<div id="top_text" onclick="location.href='http://www.wepear.com/mobile';"><center>Pear</center></div>
+
+		<div data-role="content">	
+				<div id="header_text"><center>View the feed.</center></div>
+				
+				<div id="sub_form2">
+					<!--<form name = "filter_input">-->
+						Filter by Location:
+						<br>
+						<input id="locationInput" type="text" name="locationInput" id="locationInput">
+						Filter with Tags:
+						<br>
+						<textarea id="tagsInput" name="tagsInput" cols="25" rows="5" onfocus="this.value=''">Add hashtags here.  To clear the filter, just hit submit.</textarea>
+						<input type="button" value="Filter" onclick=filterByTag()></input>
+					<!-- </form> -->
+				</div>
+				<a href="http://wepear.com/mobile/post.html" data-theme="b" data-role="button">Go Post</a>
+				<!-- <input type="button" id="LoadButton" value="No New Posts" onclick=loadLatestPosts()>
+				</input> -->
+				<div class="loadPostsButton" id="LoadButton" onclick=loadLatestPosts() ></div> 
+				<div id="mainDiv" style="width:50%"></div>
+		</div>
+	</body>
+
+	<!--defining the basic encounter card format -->
+	<style>
+		@font-face {
+			font-family: berlin;
+			src: url(test_font.ttf);
+		}
+
+		.encounterCardDiv {
+			position: relative;
+			width:200%;
+			background-color: white;
+			/*border: 1px solid #767171;*/
+			word-wrap: break-word;
+			color: #404040;
+			margin-bottom: 20px;
+			/*EMERGENCY. ALL ALIGNMENT TAGS DO NOT WORK*/
+			/*WELL SHIT. WE'RE SINKING CAPTAIN, WE'RE SINKINGGGGGGG *glub glub glub */
+		}
+		
+		#header_text
+		{
+			font-family:berlin;
+			color:#339900;
+			font-size:24px;
+		}
+	
+		#top_text
+		{
+			font-family:berlin;
+			color:#FFFFFF;
+			font-size:48px;
+			background-color:#339900;
+		}
+		
+		.loadPostsButton {
+			width: 500px;
+			background-color: green;
+			color:white;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			cursor: pointer;
+			font-family: berlin;
+		}
+
+		#sub_form2 {
+			font-family: berlin;
+			color: #339900;
+			margin-top: 20px;
+		}
+
+		#head_logo {
+			margin-top: 20px !important;
+			margin: 0 auto;
+			width: 50%;
+			height: 200px;
+			border: 2px solid #339900;
+			font-size: 94px;
+			font-family: berlin;
+		}
+
+		#top_bar {
+			color: white;
+			font-family: berlin;
+			background-color: #339900;
+			font-size: 36px;
+		}
+
+		#logo_white {
+			margin-left: 10px;
+			width: 30px; /* you can use % */
+			height: auto;
+		}
+
+	</style>
+
+	<!--Scrolling Functions-->
+	<script>
+		/**
+		 * WARNING:
+		 * The edits I'm about to make are going to MAJORLY fuck with just about everything we have written down here.  I think.
+		 * Don't be mad.
+		 *
+		 * Remember the bunnies,
+		 * Alex
+		 */
+
+		var counter = 0;
+		var bottomChild;
+		var topChild;
+		var latestId;
+		var latestPostId;
+		var postToAppendDownTo = 0;
+		var lowestDisplayedPost = 0;
+		var canAppend = true;
+
+		//var latestIndexInDatabase;
+		var latestPostedIndex;
+		var lowestPostedIndex;
+		//index, in the array, of the post id that is displayed at the bottom of the page
+
+		var indexToAppendTo;
+		//index, in the same array, to append to
+		var queryPostIds;
+
+		var tagArray = new Array();
+		var tagString;
+
+		function filterByTag()
+		{
+			tagString = document.getElementById("tagsInput").value;
+			tagString = tagString.replace(" ","");
+			//document.write(tagArray);
+			if(typeof(Storage) !== "undefined")
+			{
+				//we have sessionStorage support!  Huzzah!
+				sessionStorage.stringOfTags = tagString;
+				sessionStorage.locationString = document.getElementById("locationInput").value;
+			}
+			else
+			{
+				alert("No SessionStorage support!  Do us a favor, drop us a line and tell us it's not working.  Thanks!");
+			}
+			location.reload();
+		}
+		
+		function appendNewEncounter() {
+			console.log(lowestPostedIndex);
+			console.log(indexToAppendTo);
+			if (lowestPostedIndex > indexToAppendTo) {
+				//create a new div to hold the encounter.  set it's css to the default encounter style
+				var div = document.createElement("div");
+				div.className = "encounterCardDiv";
+				$(div).load("post2.php", {
+					postIdToFetch : queryPostIds[lowestPostedIndex - 1]
+				}, function() {
+					lowestPostedIndex--;
+					mainDiv.appendChild(div)
+					appendNewEncounter();
+				});
+			} else {
+				canAppend = true;
+			}
+		}
+
+		function prependNewEncounters() {
+			if (queryPostIds.length > latestPostedIndex + 1) {
+				var div = document.createElement("div");
+				div.className = "encounterCardDiv";
+
+				$(div).load("post2.php", {
+					postIdToFetch : queryPostIds[latestPostedIndex + 1]
+				}, function() {
+					$("#mainDiv").prepend(div);
+					topChild = div;
+					latestPostedIndex++;
+					prependNewEncounters();
+				});
+			}
+		}
+
+		$(document).unbind("pageinit");//stops function from being called twice. not exactly sure whats going on here...there seems to be a bind left over from something else?
+		$(document).bind("pageinit", function() {
+			tagString = sessionStorage.stringOfTags;
+			if(tagString == undefined)
+			{
+				tagString = " ";
+			}
+			locationTag = sessionStorage.locationString;
+			if(locationTag == undefined) {locationTag = " ";}
+			tagArray = tagString.split("#");
+			tagArray.shift();//removes first item (which ends up being nothing because javascript splits before and after the first #)
+			$.post("QueryEncounters.php", {
+				'tags' : tagArray,//i shouldn't really be able to pass an array, but...
+				'location' : locationTag
+			}, function(data) {
+				queryPostIds = $.parseJSON(data);
+				console.log(queryPostIds);
+				lowestPostedIndex = queryPostIds.length;
+				indexToAppendTo = lowestPostedIndex - 8;
+				if(indexToAppendTo < 0){indexToAppendTo = 0}
+				console.log("appending");
+				appendNewEncounter();
+				latestPostedIndex = queryPostIds.length - 1;
+			});
+		});
+
+		$(window).scroll(function() {
+			//if ($(window).scrollTop() + $(window).height() == $(document).height()) //usually use this one
+			if ($(window).scrollTop() + $(window).height() > $(document).height() - 300)
+			// ^ for some reason this acts differently if you move slow or fast
+			{
+
+				if (canAppend) {
+					if (indexToAppendTo > 10)//the 20 was 3
+					{
+						indexToAppendTo -= 10;
+						//the 20 was 3
+					} else {
+						indexToAppendTo = 0;
+					}
+					console.log("append from scroll");
+					appendNewEncounter();
+					canAppend = false;
+				}
+			}
+
+		});
+
+		function checkLatestPostID() {
+			$.post("QueryEncounters.php", {
+				'tags' : tagArray,
+				'location' : locationTag
+			}, function(data) {
+				queryPostIds = $.parseJSON(data);
+				if (queryPostIds.length > latestPostedIndex + 1) {
+					//new post
+					document.getElementById("LoadButton").innerHTML = " " + String(queryPostIds.length - latestPostedIndex - 1) + " New Post(s)";
+					document.getElementById("LoadButton").style.height = '20px';
+				} else {
+					//no new posts
+					document.getElementById("LoadButton").innerHTML = "";
+					document.getElementById("LoadButton").style.height = '0px';
+				}
+			});
+		}
+
+		function loadLatestPosts() {
+			//document.getElementById("LoadButton").innerHTML = "No New Posts";
+			document.getElementById("LoadButton").style.height = '0px';
+			prependNewEncounters();
+			//console.log(latestPostedIndex);
+		}
+
+		setInterval(checkLatestPostID, 3000);
+	</script>
+
+
+</html>

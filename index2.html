@@ -1,0 +1,192 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Pear</title> 
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+
+	<script>
+	function formSubmit()
+	{
+		document.getElementById("frm1").submit();
+	}
+	</script>
+	
+</head> 
+
+<body> 
+<div data-role="page" id="home">
+
+	<!--<div data-role="header">
+		<h1 id="top_text">Pear</h1>
+	</div> -->
+	<div id="top_text"><center>Pear</center></div>
+	
+	<div data-role="content">	
+		<img id="logo" border="0" src="newlogo_biggreen.png" alt="hmm... the logo should be here">
+		<div id="header_text"><center>Make the connection.</center></div>		
+		<p><a href="#live" data-role="button">Go Live</a></p>
+		<p><a href="#post" data-role="button">Go Post</a></p>
+		<br>
+		<p id="about">Pear was made to give you another shot at the connection that just slipped you by. Ever meet someone new, or just share a glance, only to never see them again? No more.</p>
+		<p id="about">You'll meet a lot of new people this week. Some you'll become fast friends with - facebook profiles, phone numbers, and blog links exchanged within minutes. Other friendships might require a little push - you might not even get their name at first. If that's the case, and you find yourself lost with no way to get in touch, Pear's here to save you.</p>
+	</div><!-- /content -->
+</div><!-- /page -->
+
+
+<!-- Start of second page -->
+<div data-role="page" id="live">
+
+	<div id="top_text" onclick="location.href='#home';"><center>Pear</center></div>
+	
+	<div data-role="content">	
+		<div id="header_text"><center>View the feed.</center></div>
+		<p>I'm the second in the source order so I'm hidden when the page loads. I'm just shown if a link that references my id is beeing clicked.</p>			
+		<p>Thanks for the note Hunter.</p>
+		<p>Sincerely, The bunnies </p>
+		<div class="encounterCard">
+			<div class="encounterPicture">
+				<img src="newlogo_biggreen.png" width="100%">
+			</div>
+			<div class="encounterDetails">
+				line1 <br>
+				line2 <br>
+				line3 <br>
+			</div>
+			<div class="heart">
+				
+			</div>
+			<div class="encounterText">
+				Text goes here <br>
+				and again <br>
+				3 <br>
+			</div>
+		</div>
+	</div><!-- /content -->
+</div><!-- /page -->
+
+<div data-role="page" id="post">
+
+	<div id="top_text" onclick="location.href='#home';"><center>Pear</center></div>
+	<br>
+	<div id="header_text"><center>Submit an encounter.</center></div>
+	<div data-role="content">	
+		<form name="input" id="frm1" action="submit_to_database.php" method="post" data-ajax="false">
+			<legend>Name:</legend>
+			<input type="text" name="name" id="basic" data-mini="true" />
+
+			<fieldset data-role="controlgroup">
+				<legend>Sex:</legend>
+     			<input type="radio" name="sex" id="radio-choice-1" value="male" checked="checked" />
+     			<label for="radio-choice-1">Male</label>
+
+     			<input type="radio" name="sex" id="radio-choice-2" value="female"  />
+     			<label for="radio-choice-2">Female</label>
+			</fieldset>
+			
+			<legend>Location:</legend>
+			<input type="text" name="location" id="basic" data-mini="true" />
+			
+			<legend>Encounter:</legend>
+			<textarea name="description" id="textarea-a">
+				
+				
+			</textarea>
+			
+			<legend>Tags:</legend>
+			<textarea name="tags" id="textarea-a">
+				
+				
+			</textarea>
+			
+			<legend>Info:</legend>
+			<select name="info_type" id="select-choice-0">
+   			<option value="facebook">Facebook</option>
+   			<option value="email">Email</option>
+   			<option value="website">Website</option>
+   			<option value="other">Other</option>
+			</select>
+			<input type="text" name="info" id="basic" data-mini="true" />
+			<br>
+			<button type="submit" data-theme="b" name="submit" value="Submit" onclick="formSubmit()">Submit</button>
+			<a href="index.html" data-role="button">Cancel</a>				
+	</div><!-- /content -->
+</div><!-- /page -->
+	
+</body>
+
+<style>
+	@font-face
+	{
+		font-family: berlin;
+		src: url(test_font.ttf);
+	}
+	
+	#logo
+	{
+    	width:100%; /* you can use % */
+    	height: auto;
+	}
+	
+	#header_text
+	{
+		font-family:berlin;
+		color:#339900;
+		font-size:24px;
+	}
+	
+	#top_text
+	{
+		font-family:berlin;
+		color:#FFFFFF;
+		font-size:48px;
+		background-color:#339900;
+	}
+	
+	#about
+	{
+		text-align:center;
+		font-family:berlin;
+		color:#339900;
+		font-size:12pt;
+	}
+	
+	.encounterCard
+	{
+		width: 100%
+		background-color: white;
+		border: 1px solid #767171;
+		word-wrap: break-word;
+		color: #339900;
+		border-radius: 10px;
+		margin-bottom: 10px;
+	}
+	
+	.encounterText
+	{
+		margin-left: 5px;
+	}
+	
+	.encounterPicture
+	{
+		width:10%;
+		display: inline-block;
+	}
+	
+	.encounterDetails
+	{
+		display: inline-block;
+	}
+	
+	.heart
+	{
+		display: inline-block;
+		float: right;
+	}
+	}
+</style>
+</html>

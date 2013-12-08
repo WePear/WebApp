@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Pear</title> 
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+
+	<link rel="stylesheet" href="jquery.ui.datepicker.mobile.css" /> 
+ 	<script src="jQuery.ui.datepicker.js"></script>
+  	<script src="jquery.ui.datepicker.mobile.js"></script>
+
+	<script>
+	/*
+	function formSubmit()
+	{
+		document.getElementById("frm1").submit();
+	}
+	*/
+	</script>
+	
+</head> 
+
+<body> 
+<div data-role="page" id="home">
+
+	<!--<div data-role="header">
+		<h1 id="top_text">Pear</h1>
+	</div> -->
+	<div id="top_text"><center>Pear</center></div>
+	
+	<div data-role="content">	
+		<img id="logo" border="0" src="newlogo_biggreen.png" alt="hmm... the logo should be here">
+		<div id="header_text"><center>Make the connection.</center></div>		
+
+		<p><a href="#home" data-role="button" onclick="location.href='http://www.wepear.com/mobile/livestream2.html';">Get Started</a></p>
+		<p id="about">Pear was made to give you another shot at the connection that just slipped you by. Ever meet someone new, or just share a glance, only to never see them again? No more.</p>
+		<p id="about">You'll meet a lot of new people this week. Some you'll become fast friends with - facebook profiles, phone numbers, and blog links exchanged within minutes. Other friendships might require a little push - you might not even get their name at first. If that's the case, and you find yourself lost with no way to get in touch, Pear's here to save you.</p>
+	</div><!-- /content -->
+</div><!-- /page -->
+
+
+<!-- Start of second page -->
+<div data-role="page" id="live">
+
+	<div id="top_text" onclick="location.href='#home';"><center>Pear</center></div>
+	
+	<div data-role="content">
+		<div id="header_text"><center>View the feed.</center></div>
+		<p>I'm the second in the source order so I'm hidden when the page loads. I'm just shown if a link that references my id is beeing clicked.</p>			
+	</div><!-- /content -->
+</div><!-- /page -->
+	
+</body>
+
+<style>
+	@font-face
+	{
+		font-family: berlin;
+		src: url(test_font.ttf);
+	}
+	
+	#logo
+	{
+    	width:100%; /* you can use % */
+    	height: auto;
+	}
+	
+	#header_text
+	{
+		font-family:berlin;
+		color:#339900;
+		font-size:24px;
+	}
+	
+	#top_text
+	{
+		font-family:berlin;
+		color:#FFFFFF;
+		font-size:48px;
+		background-color:#339900;
+	}
+	
+	#about
+	{
+		text-align:center;
+		font-family:berlin;
+		color:#339900;
+		font-size:12pt;
+	}
+</style>
+</html>
