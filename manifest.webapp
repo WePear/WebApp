@@ -1,0 +1,13 @@
+{
+  "name": "Pear",
+  "description": "Find them again.",
+  "launch_path": "/",
+  "icons": {
+    "128": "/icon.png"
+  },
+  "developer": {
+    "name": "Hunter Rosenblume and Alex Bertrand",
+    "url": "http://wepear.com/"
+  },
+  "default_locale": "en"
+}
