@@ -1,9 +1,9 @@
 {
   "name": "Pear",
   "description": "Find them again.",
-  "launch_path": "/",
+  "launch_path": "/index.html",
   "icons": {
-    "128": "/icon.png"
+    "128": "logo.png"
   },
   "developer": {
     "name": "Hunter Rosenblume and Alex Bertrand",
